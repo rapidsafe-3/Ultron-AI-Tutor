@@ -10,23 +10,30 @@ app.use(express.json());
 // Serve static web app from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Server-to-Server Proxy Route for AI (Bypasses Browser CORS/Iframe Restrictions)
+// Server-to-Server Proxy Route for AI
 app.post('/api/chat', async (req, res) => {
   try {
     const { prompt, modelType } = req.body;
     
-    // Choose specific AI system prompt based on feature
     let systemInstruction = "";
     if (modelType === 'solver') {
-      systemInstruction = "Act as an AI Homework Solver using DeepSeek reasoning style. Do NOT give final answers immediately. Give a hint, explain the concept, and ask the student to attempt the next step.";
+      systemInstruction = "Act as an AI Homework Solver. Do NOT give final answers immediately. Give a hint, explain the concept, and ask the student to attempt the next step. Format beautifully with HTML.";
     } else {
-      systemInstruction = "Act as an AI Socratic Tutor named Ultron powered by Qwen. Explain concepts simply using analogies, use HTML formatting (<b>, <br>, <ul>), and end with a quick practice question.";
+      systemInstruction = "Act as an AI Socratic Tutor named Ultron. Explain concepts simply using analogies, use HTML formatting (<b>, <br>, <ul>), and end with a quick practice question.";
     }
 
-    const fullPrompt = `${systemInstruction}\n\nStudent question: ${prompt}`;
-    
-    // Server-to-server call to free AI API
-    const aiResponse = await fetch(`https://text.pollinations.ai/${encodeURIComponent(fullPrompt)}?model=openai`);
+    // Using a robust POST request to avoid URL length limits
+    const aiResponse = await fetch('https://text.pollinations.ai/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: systemInstruction },
+          { role: 'user', content: prompt }
+        ],
+        model: 'openai' // Most stable free model backend
+      })
+    });
     
     if (!aiResponse.ok) {
       throw new Error("AI provider network error");
