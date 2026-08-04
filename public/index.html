@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ultron AI Tutor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ================= 1. SPLASH SCREEN ================= -->
+  <section id="screen-splash" class="app-screen active d-flex-center flex-col">
+    <div class="star-icon-large gradient-star mb-20">✦</div>
+    <h1 class="logo-text text-primary">ULTRON</h1>
+    <p class="text-muted mt-10">Initializing Command Center...</p>
+  </section>
+
+  <!-- ================= 2. AUTHENTICATION ================= -->
+  <section id="screen-auth" class="app-screen">
+    <div class="auth-container text-center">
+      <div class="star-icon-medium gradient-star mb-10">✦</div>
+      <h2 class="serif-title mb-10">Welcome to Ultron</h2>
+      <p class="text-muted text-sm mb-40">Your personal learning ecosystem.</p>
+
+      <form id="form-login" class="mb-20">
+        <input type="email" id="login-email" class="input-field mb-10" placeholder="Email address" required>
+        <input type="password" id="login-password" class="input-field mb-20" placeholder="Password" required>
+        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+      </form>
+
+      <form id="form-signup" class="mb-20 hidden">
+        <input type="email" id="signup-email" class="input-field mb-10" placeholder="New Email address" required>
+        <input type="password" id="signup-password" class="input-field mb-20" placeholder="Create Password" required>
+        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+      </form>
+
+      <div class="d-flex-center gap-10 mt-20">
+        <button class="btn btn-outline btn-small" id="btn-show-login" onclick="toggleAuth('login')">Login</button>
+        <button class="btn btn-outline btn-small" id="btn-show-signup" onclick="toggleAuth('signup')">Sign Up</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. PROFILE SETUP ================= -->
+  <section id="screen-setup" class="app-screen">
+    <div class="auth-container">
+      <h2 class="serif-title mb-10 text-center">Let's personalize.</h2>
+      <p class="text-muted text-sm mb-40 text-center">Tell us a bit about yourself.</p>
+
+      <form id="form-setup">
+        <label class="font-bold text-sm mb-5 d-block">Full Name</label>
+        <input type="text" id="setup-name" class="input-field mb-20" value="Mohammed Saqib Ahmed" required>
+
+        <label class="font-bold text-sm mb-5 d-block">Date of Birth</label>
+        <div class="grid-3 gap-10 mb-20">
+          <select id="setup-month" class="input-field"><option value="05" selected>May</option></select>
+          <select id="setup-day" class="input-field"><option value="01" selected>1</option></select>
+          <select id="setup-year" class="input-field"><option value="2008" selected>2008</option></select>
+        </div>
+
+        <label class="font-bold text-sm mb-5 d-block">Target Goal</label>
+        <select id="setup-goal" class="input-field mb-40">
+          <option value="JEE">JEE / Engineering</option>
+          <option value="NEET">NEET / Medical</option>
+          <option value="Boards">Board Exams</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary w-100">Complete Setup</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= 4. DASHBOARD ================= -->
+  <section id="screen-dashboard" class="app-screen">
+    
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Ultron Space</span>
+        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="sidebar-scroll">
+        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
+        <div class="nav-links mb-20">
+          <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
+          <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
+          <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
+          <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
+          <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
+        </div>
+
+        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
+        <div class="nav-links mb-20">
+          <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
+          <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
+          <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="profile-preview mt-10" onclick="navTo('view-profile')">
+          <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
+          <div class="profile-info">
+            <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
+            <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
+      </div>
+    </nav>
+    <div id="sidebar-overlay" class="overlay hidden" onclick="toggleSidebar()"></div>
+
+    <main class="main-content">
+      <header class="app-header">
+        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <div class="model-selector"><span id="header-title">Command Center</span></div>
+        <button class="icon-btn" onclick="navTo('view-home')"><i class="fa-solid fa-pen-to-square"></i></button>
+      </header>
+
+      <!-- View: Home -->
+      <section id="view-home" class="view-section active">
+        <div class="page-container">
+          <div class="greeting-container text-center mb-40 mt-20">
+            <div class="star-icon-medium gradient-star mb-10">✦</div>
+            <h1 class="serif-greeting">Hi <span id="greeting-name">Mohammed</span>,<br>what's on your mind?</h1>
+          </div>
+
+          <div class="card bg-surface-light border-accent mb-20" onclick="navTo('view-chat', 'Socratic Tutor')">
+            <div class="d-flex gap-10">
+              <div class="text-accent mt-5"><i class="fa-solid fa-robot"></i></div>
+              <div>
+                <h4 class="text-primary">AI Mentor Suggestion</h4>
+                <p class="text-sm text-muted mt-5">Let's do a 15-minute focused revision on Physics today.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2 gap-20 mb-20">
+            <div class="card" onclick="navTo('view-profile')">
+              <h4 class="text-muted text-sm uppercase mb-10">Knowledge Health</h4>
+              <div class="d-flex-between">
+                <span class="text-2xl text-primary">92/100</span>
+                <span class="badge bg-green-light text-green">+4%</span>
+              </div>
+              <div class="progress-bar mt-10"><div class="progress-fill bg-green" style="width: 92%;"></div></div>
+            </div>
+            <div class="card" onclick="navTo('view-profile')">
+              <h4 class="text-muted text-sm uppercase mb-10">Daily Streak</h4>
+              <div class="d-flex-between">
+                <span class="text-2xl text-orange"><i class="fa-solid fa-fire"></i> 48</span>
+                <span class="text-sm text-muted">Days</span>
+              </div>
+              <p class="text-xs text-muted mt-10" id="xp-home-display">12,450 XP</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Chat Engine -->
+      <section id="view-chat" class="view-section flex-col">
+        <div class="chat-area" id="chat-messages">
+          <div class="message ai-message">
+            <div class="avatar-small"><div class="gradient-star">✦</div></div>
+            <div class="bubble"><p>I am your Socratic AI Tutor. I will guide you step-by-step. What are we studying?</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Notes AI -->
+      <section id="view-notes" class="view-section">
+        <div class="page-container text-center">
+          <h2 class="serif-title mb-20">AI Notes Generator</h2>
+          <div class="upload-zone mb-20">
+            <i class="fa-solid fa-cloud-arrow-up text-accent text-3xl mb-10"></i>
+            <p class="text-primary font-bold">Tap to upload PDF or Image</p>
+          </div>
+          <input type="text" id="notes-topic" class="input-field mb-10" placeholder="Or type a topic to generate notes...">
+          <button class="btn btn-primary w-100" onclick="generateNotes()">Generate Smart Notes</button>
+          <div id="notes-output" class="card text-left mt-20 hidden"></div>
+        </div>
+      </section>
+
+      <!-- View: Study Rooms -->
+      <section id="view-rooms" class="view-section">
+        <div class="page-container">
+          <div class="d-flex-between mb-20">
+            <h2 class="serif-title">Study Rooms</h2>
+            <button class="btn btn-primary btn-small">➕ Create</button>
+          </div>
+          <div class="card mb-10">
+            <div class="d-flex-between mb-10">
+              <h4 class="text-primary">JEE Physics Marathon</h4>
+              <span class="badge bg-surface-light text-primary">👥 18/25</span>
+            </div>
+            <p class="text-sm text-muted mb-10">⏱️ 42 min running • Host: Rahul</p>
+            <button class="btn btn-outline w-100">Join Room</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- View: Focus Mode -->
+      <section id="view-focus" class="view-section">
+        <div class="page-container text-center">
+          <h2 class="serif-title mb-20">Focus Mode</h2>
+          <div class="timer-ring d-flex-center flex-col mx-auto mb-40 mt-40">
+            <h1 class="text-4xl text-primary" id="focus-time">25:00</h1>
+            <p class="text-sm text-muted">Stay focused.</p>
+          </div>
+          <button class="btn btn-primary w-100 mb-10" onclick="startFocusTimer()">Start Deep Work</button>
+        </div>
+      </section>
+
+      <!-- View: Profile -->
+      <section id="view-profile" class="view-section">
+        <div class="page-container text-center">
+          <div class="avatar-large bg-accent text-white d-flex-center mx-auto mb-10"><i class="fa-solid fa-user text-3xl"></i></div>
+          <h2 class="text-primary" id="profile-name-display">Mohammed Saqib Ahmed</h2>
+          <p class="text-muted text-sm mb-20">Bengaluru, India • Level 18 Scholar</p>
+          
+          <div class="card mb-20">
+            <div class="d-flex-between mb-5">
+              <span class="font-bold">Scholar Rank</span>
+              <span class="text-accent font-bold" id="profile-xp-display">12,450 XP</span>
+            </div>
+            <div class="progress-bar mb-10"><div class="progress-fill bg-accent" style="width: 75%;"></div></div>
+          </div>
+          <button class="btn btn-outline w-100 mt-20" onclick="logoutUser()">Sign Out</button>
+        </div>
+      </section>
+
+      <!-- View: Planner Placeholder -->
+      <section id="view-planner" class="view-section"><div class="page-container text-center"><h2 class="serif-title mb-20">Study Planner</h2><p class="text-muted">Calendar schedule loads here.</p></div></section>
+
+      <!-- Global Chat Input Bar -->
+      <div class="global-input-wrapper" id="global-input">
+        <div class="input-pill">
+          <button class="icon-btn text-muted"><i class="fa-solid fa-plus"></i></button>
+          <input type="text" id="chat-input" placeholder="Ask Ultron...">
+          <button class="icon-btn bg-surface text-primary rounded-full" onclick="handleGlobalSubmit()"><i class="fa-solid fa-arrow-up"></i></button>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
