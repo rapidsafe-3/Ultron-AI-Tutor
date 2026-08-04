@@ -73,42 +73,42 @@
 
   <!-- ================= 4. DASHBOARD ================= -->
   <section id="screen-dashboard" class="app-screen">
-    
-    <nav id="sidebar" class="sidebar">
-      <div class="sidebar-header">
-        <span class="sidebar-title">Ultron Space</span>
-        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      
-      <div class="sidebar-scroll">
-        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
-        <div class="nav-links mb-20">
-          <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
-          <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
-          <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
-          <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
-          <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
-        </div>
 
-        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
-        <div class="nav-links mb-20">
-          <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
-          <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
-          <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
-        </div>
-      </div>
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Ultron Space</span>
+    <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  
+  <div class="sidebar-scroll">
+    <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
+    <div class="nav-links mb-20">
+      <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
+      <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
+      <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
+      <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
+      <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
+    </div>
 
-      <div class="sidebar-footer">
-        <div class="profile-preview mt-10" onclick="navTo('view-profile')">
-          <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
-          <div class="profile-info">
-            <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
-            <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
-          </div>
-        </div>
-        <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
+    <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
+    <div class="nav-links mb-20">
+      <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
+      <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
+      <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="profile-preview mt-10" onclick="navTo('view-profile')">
+      <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
+      <div class="profile-info">
+        <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
+        <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
       </div>
-    </nav>
+    </div>
+    <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
+  </div>
+</nav>
     <div id="sidebar-overlay" class="overlay hidden" onclick="toggleSidebar()"></div>
 
     <main class="main-content">
