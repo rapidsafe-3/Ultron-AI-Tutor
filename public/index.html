@@ -71,44 +71,44 @@
     </div>
   </section>
 
-  <!-- ================= 4. DASHBOARD ================= -->
+  <!-- ================= 4. DASHBOARD & VIEWS ================= -->
   <section id="screen-dashboard" class="app-screen">
-
-<nav id="sidebar" class="sidebar">
-  <div class="sidebar-header">
-    <span class="sidebar-title">Ultron Space</span>
-    <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  
-  <div class="sidebar-scroll">
-    <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
-    <div class="nav-links mb-20">
-      <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
-      <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
-      <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
-      <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
-      <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
-    </div>
-
-    <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
-    <div class="nav-links mb-20">
-      <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
-      <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
-      <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
-    </div>
-  </div>
-
-  <div class="sidebar-footer">
-    <div class="profile-preview mt-10" onclick="navTo('view-profile')">
-      <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
-      <div class="profile-info">
-        <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
-        <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
+    
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Ultron Space</span>
+        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
       </div>
-    </div>
-    <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
-  </div>
-</nav>
+      
+      <div class="sidebar-scroll">
+        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
+        <div class="nav-links mb-20">
+          <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
+          <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
+          <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
+          <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
+          <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
+        </div>
+
+        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
+        <div class="nav-links mb-20">
+          <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
+          <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
+          <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="profile-preview mt-10" onclick="navTo('view-profile')">
+          <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
+          <div class="profile-info">
+            <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
+            <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
+      </div>
+    </nav>
     <div id="sidebar-overlay" class="overlay hidden" onclick="toggleSidebar()"></div>
 
     <main class="main-content">
@@ -131,14 +131,14 @@
               <div class="text-accent mt-5"><i class="fa-solid fa-robot"></i></div>
               <div>
                 <h4 class="text-primary">AI Mentor Suggestion</h4>
-                <p class="text-sm text-muted mt-5">Let's do a 15-minute focused revision on Physics today.</p>
+                <p class="text-sm text-muted mt-5">Let's do a 15-minute focused revision today.</p>
               </div>
             </div>
           </div>
 
           <div class="grid-2 gap-20 mb-20">
             <div class="card" onclick="navTo('view-profile')">
-              <h4 class="text-muted text-sm uppercase mb-10">Knowledge Health</h4>
+              <h4 class="text-muted text-xs uppercase mb-10">Knowledge Health</h4>
               <div class="d-flex-between">
                 <span class="text-2xl text-primary">92/100</span>
                 <span class="badge bg-green-light text-green">+4%</span>
@@ -146,7 +146,7 @@
               <div class="progress-bar mt-10"><div class="progress-fill bg-green" style="width: 92%;"></div></div>
             </div>
             <div class="card" onclick="navTo('view-profile')">
-              <h4 class="text-muted text-sm uppercase mb-10">Daily Streak</h4>
+              <h4 class="text-muted text-xs uppercase mb-10">Daily Streak</h4>
               <div class="d-flex-between">
                 <span class="text-2xl text-orange"><i class="fa-solid fa-fire"></i> 48</span>
                 <span class="text-sm text-muted">Days</span>
@@ -220,8 +220,8 @@
           
           <div class="card mb-20">
             <div class="d-flex-between mb-5">
-              <span class="font-bold">Scholar Rank</span>
-              <span class="text-accent font-bold" id="profile-xp-display">12,450 XP</span>
+              <span class="font-bold text-sm">Scholar Rank</span>
+              <span class="text-accent font-bold text-sm" id="profile-xp-display">12,450 XP</span>
             </div>
             <div class="progress-bar mb-10"><div class="progress-fill bg-accent" style="width: 75%;"></div></div>
           </div>
@@ -229,8 +229,7 @@
         </div>
       </section>
 
-      <!-- View: Planner Placeholder -->
-      <section id="view-planner" class="view-section"><div class="page-container text-center"><h2 class="serif-title mb-20">Study Planner</h2><p class="text-muted">Calendar schedule loads here.</p></div></section>
+      <section id="view-planner" class="view-section"><div class="page-container text-center"><h2 class="serif-title mb-20">Study Planner</h2><p class="text-muted text-sm">Calendar schedule loads here.</p></div></section>
 
       <!-- Global Chat Input Bar -->
       <div class="global-input-wrapper" id="global-input">
