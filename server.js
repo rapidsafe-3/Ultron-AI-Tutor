@@ -10,36 +10,41 @@ app.use(express.json());
 // Serve static web app from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Server-to-Server Proxy Route for AI
+// Server-to-Server Proxy Route for Groq AI
 app.post('/api/chat', async (req, res) => {
   try {
     const { prompt, modelType } = req.body;
     
     let systemInstruction = "";
     if (modelType === 'solver') {
-      systemInstruction = "Act as an AI Homework Solver. Do NOT give final answers immediately. Give a hint, explain the concept, and ask the student to attempt the next step. Format beautifully with HTML.";
+      systemInstruction = "Act as an AI Homework Solver. Do NOT give final answers immediately. Give a hint, explain the concept step-by-step, and ask the student to attempt the next logical step. Format beautifully with HTML (<br>, <b>, <ul>).";
     } else {
-      systemInstruction = "Act as an AI Socratic Tutor named Ultron. Explain concepts simply using analogies, use HTML formatting (<b>, <br>, <ul>), and end with a quick practice question.";
+      systemInstruction = "Act as an AI Socratic Tutor named Ultron. Explain concepts simply using real-world analogies. Use HTML formatting (<b>, <br>, <ul>), and end your response with a quick practice question.";
     }
 
-    // Using a robust POST request to avoid URL length limits
-    const aiResponse = await fetch('https://text.pollinations.ai/', {
+    // Call Groq API endpoint
+    const aiResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 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' 
+      },
       body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'system', content: systemInstruction },
           { role: 'user', content: prompt }
-        ],
-        model: 'openai' // Most stable free model backend
+        ]
       })
     });
     
     if (!aiResponse.ok) {
-      throw new Error("AI provider network error");
+      throw new Error("Groq API network error");
     }
 
-    const text = await aiResponse.text();
+    const data = await aiResponse.json();
+    const text = data.choices[0].message.content;
+    
     res.json({ success: true, reply: text });
 
   } catch (error) {
