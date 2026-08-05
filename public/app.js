@@ -74,7 +74,7 @@ onAuthStateChanged(auth, async (user) => {
         } else {
             showAppScreen('screen-auth');
         }
-    }, 1200);
+    }, 1500);
 });
 
 window.toggleAuth = function(type) {
@@ -193,7 +193,7 @@ function appendMessage(sender, text) {
     }
     
     container.appendChild(msgDiv);
-    const mainContent = document.querySelector('.main-content');
+    const mainContent = document.querySelector('.view-section.active');
     mainContent.scrollTo(0, mainContent.scrollHeight);
     return id;
 }
