@@ -1,248 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ultron AI Tutor</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Ultron AI Tutor</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ================= 1. SPLASH SCREEN ================= -->
-  <section id="screen-splash" class="app-screen active d-flex-center flex-col">
-    <div class="star-icon-large gradient-star mb-20">✦</div>
-    <h1 class="logo-text text-primary">ULTRON</h1>
-    <p class="text-muted mt-10">Initializing Command Center...</p>
-  </section>
+<!-- ======================= AUTH SCREEN ======================= -->
+<div id="auth-screen" class="auth-screen">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="orb-mark"></div>
+      <h1>Ultron</h1>
+      <p class="brand-sub">Your AI study companion</p>
+    </div>
 
-  <!-- ================= 2. AUTHENTICATION ================= -->
-  <section id="screen-auth" class="app-screen">
-    <div class="auth-container text-center">
-      <div class="star-icon-medium gradient-star mb-10">✦</div>
-      <h2 class="serif-title mb-10">Welcome to Ultron</h2>
-      <p class="text-muted text-sm mb-40">Your personal learning ecosystem.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-auth-tab="signin">Sign in</button>
+      <button class="auth-tab" data-auth-tab="signup">Create account</button>
+    </div>
 
-      <form id="form-login" class="mb-20">
-        <input type="email" id="login-email" class="input-field mb-10" placeholder="Email address" required>
-        <input type="password" id="login-password" class="input-field mb-20" placeholder="Password" required>
-        <button type="submit" class="btn btn-primary w-100">Sign In</button>
-      </form>
+    <!-- Sign in -->
+    <form id="signin-form" class="auth-form">
+      <label class="field">
+        <span>Email</span>
+        <input type="email" id="signin-email" required autocomplete="email" placeholder="you@example.com" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="signin-password" required autocomplete="current-password" placeholder="••••••••" />
+      </label>
+      <button type="button" id="forgot-password" class="link-btn">Forgot password?</button>
+      <button type="submit" class="primary-btn">Sign in</button>
+    </form>
 
-      <form id="form-signup" class="mb-20 hidden">
-        <input type="email" id="signup-email" class="input-field mb-10" placeholder="New Email address" required>
-        <input type="password" id="signup-password" class="input-field mb-20" placeholder="Create Password" required>
-        <button type="submit" class="btn btn-primary w-100">Create Account</button>
-      </form>
+    <!-- Create account -->
+    <form id="signup-form" class="auth-form hidden">
+      <label class="field">
+        <span>Name</span>
+        <input type="text" id="signup-name" required autocomplete="name" placeholder="Your name" />
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" id="signup-email" required autocomplete="email" placeholder="you@example.com" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="signup-password" required autocomplete="new-password" minlength="6" placeholder="At least 6 characters" />
+      </label>
+      <button type="submit" class="primary-btn">Create account</button>
+    </form>
 
-      <div class="d-flex-center gap-10 mt-20">
-        <button class="btn btn-outline btn-small" id="btn-show-login" onclick="toggleAuth('login')">Login</button>
-        <button class="btn btn-outline btn-small" id="btn-show-signup" onclick="toggleAuth('signup')">Sign Up</button>
+    <div class="auth-divider"><span>or</span></div>
+
+    <button id="google-signin" class="google-btn" type="button">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.57 2.7-3.88 2.7-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.98v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.98A9 9 0 0 0 0 9c0 1.45.35 2.83.98 4.03l2.97-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .98 4.97l2.97 2.33C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+
+    <p id="auth-error" class="auth-error hidden"></p>
+  </div>
+</div>
+
+<!-- ======================= APP SHELL ======================= -->
+<div id="app-shell" class="app-shell hidden">
+
+  <!-- ---- HOME ---- -->
+  <section id="view-home" class="view active-view">
+    <header class="topbar">
+      <div class="topbar-user">
+        <img id="user-avatar" class="avatar" src="" alt="" />
+        <div>
+          <p class="greeting" id="greeting-text">Welcome back</p>
+          <p class="greeting-name" id="greeting-name">Student</p>
+        </div>
+      </div>
+      <button class="icon-btn" id="open-profile-from-home" aria-label="Profile">⚙️</button>
+    </header>
+
+    <div class="scroll-area">
+      <div class="ask-box card" id="home-ask-box">
+        <span class="ask-icon">✨</span>
+        <input type="text" id="home-ask-input" placeholder="Ask Ultron anything…" />
+        <button class="orb-mini" id="home-orb-btn" aria-label="Talk to Ultron">🎤</button>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-action" data-quick="chat"><span>💬</span>Chat</button>
+        <button class="quick-action" data-quick="pdf"><span>📄</span>PDF</button>
+        <button class="quick-action" data-quick="camera"><span>📷</span>Camera</button>
+        <button class="quick-action" data-quick="voice"><span>🎤</span>Voice</button>
+        <button class="quick-action" data-quick="notes"><span>📝</span>Notes</button>
+        <button class="quick-action" data-quick="quiz"><span>🧠</span>Quiz</button>
+      </div>
+
+      <div class="card section-card">
+        <div class="section-head">
+          <h3>Continue learning</h3>
+          <button class="text-link" data-nav="study">See all</button>
+        </div>
+        <div id="continue-learning-list" class="row-list"></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card section-card">
+          <h3>Recent chats</h3>
+          <div id="recent-chats-list" class="mini-list"></div>
+        </div>
+        <div class="card section-card">
+          <h3>Recent PDFs</h3>
+          <div id="recent-pdfs-list" class="mini-list"></div>
+        </div>
+      </div>
+
+      <div class="card section-card">
+        <div class="section-head">
+          <h3>Today's goal</h3>
+          <span id="goal-progress-label">0 / 30 min</span>
+        </div>
+        <div class="progress-track"><div id="goal-progress-fill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="card ai-suggestion-card">
+        <span class="ai-suggestion-icon">✨</span>
+        <div>
+          <p class="ai-suggestion-title">Suggested for you</p>
+          <p id="ai-suggestion-text" class="ai-suggestion-text">Ask me anything to get a personalized study suggestion.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 3. PROFILE SETUP ================= -->
-  <section id="screen-setup" class="app-screen">
-    <div class="auth-container">
-      <h2 class="serif-title mb-10 text-center">Let's personalize.</h2>
-      <p class="text-muted text-sm mb-40 text-center">Tell us a bit about yourself.</p>
+  <!-- ---- CHAT ---- -->
+  <section id="view-chat" class="view">
+    <header class="topbar">
+      <h2>Chat</h2>
+      <button class="icon-btn" id="chat-new" aria-label="New chat">➕</button>
+    </header>
 
-      <form id="form-setup">
-        <label class="font-bold text-sm mb-5 d-block">Full Name</label>
-        <input type="text" id="setup-name" class="input-field mb-20" value="Mohammed Saqib Ahmed" required>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-empty" id="chat-empty">
+        <div class="orb-mark large"></div>
+        <p>Ask about homework, coding, math, science, essays, or anything you're studying.</p>
+      </div>
+    </div>
 
-        <label class="font-bold text-sm mb-5 d-block">Date of Birth</label>
-        <div class="grid-3 gap-10 mb-20">
-          <select id="setup-month" class="input-field"><option value="05" selected>May</option></select>
-          <select id="setup-day" class="input-field"><option value="01" selected>1</option></select>
-          <select id="setup-year" class="input-field"><option value="2008" selected>2008</option></select>
-        </div>
+    <div class="response-actions hidden" id="response-actions">
+      <button data-action="quiz-me">Quiz me</button>
+      <button data-action="simplify">Simplify</button>
+      <button data-action="explain-again">Explain again</button>
+      <button data-action="generate-notes">Generate notes</button>
+      <button data-action="save">Save</button>
+    </div>
 
-        <label class="font-bold text-sm mb-5 d-block">Target Goal</label>
-        <select id="setup-goal" class="input-field mb-40">
-          <option value="JEE">JEE / Engineering</option>
-          <option value="NEET">NEET / Medical</option>
-          <option value="Boards">Board Exams</option>
-        </select>
-
-        <button type="submit" class="btn btn-primary w-100">Complete Setup</button>
-      </form>
+    <div class="chat-input-bar">
+      <div id="chat-attachments" class="chat-attachments hidden"></div>
+      <div class="chat-input-row">
+        <button class="icon-btn" id="chat-attach-camera" aria-label="Camera">📷</button>
+        <button class="icon-btn" id="chat-attach-file" aria-label="Attach file">📄</button>
+        <input type="file" id="chat-file-input" multiple hidden />
+        <textarea id="chat-text-input" placeholder="Message Ultron…" rows="1"></textarea>
+        <button class="icon-btn" id="chat-attach-voice" aria-label="Voice">🎤</button>
+        <button class="icon-btn" id="chat-attach-more" aria-label="More">➕</button>
+        <button class="send-btn" id="chat-send" aria-label="Send">➤</button>
+      </div>
     </div>
   </section>
 
-  <!-- ================= 4. DASHBOARD & VIEWS ================= -->
-  <section id="screen-dashboard" class="app-screen">
-    
-    <nav id="sidebar" class="sidebar">
-      <div class="sidebar-header">
-        <span class="sidebar-title">Ultron Space</span>
-        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      
-      <div class="sidebar-scroll">
-        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Learning</p>
-        <div class="nav-links mb-20">
-          <button class="nav-item active" onclick="navTo('view-home')"><i class="fa-solid fa-house"></i> Home</button>
-          <button class="nav-item" onclick="navTo('view-chat', 'Socratic Tutor')"><i class="fa-solid fa-sparkles"></i> AI Teacher</button>
-          <button class="nav-item" onclick="navTo('view-chat', 'HW Solver')"><i class="fa-solid fa-lightbulb"></i> HW Solver</button>
-          <button class="nav-item" onclick="navTo('view-planner')"><i class="fa-solid fa-calendar"></i> Planner</button>
-          <button class="nav-item" onclick="navTo('view-notes')"><i class="fa-solid fa-file-lines"></i> Notes AI</button>
-        </div>
-
-        <p class="text-xs text-muted font-bold mb-10 px-15 uppercase">Ecosystem</p>
-        <div class="nav-links mb-20">
-          <button class="nav-item" onclick="navTo('view-rooms')"><i class="fa-solid fa-users"></i> Study Rooms</button>
-          <button class="nav-item" onclick="navTo('view-focus')"><i class="fa-solid fa-stopwatch"></i> Focus Mode</button>
-          <button class="nav-item" onclick="navTo('view-profile')"><i class="fa-solid fa-user"></i> Profile</button>
-        </div>
-      </div>
-
-      <div class="sidebar-footer">
-        <div class="profile-preview mt-10" onclick="navTo('view-profile')">
-          <div class="avatar bg-accent text-white d-flex-center"><i class="fa-solid fa-user"></i></div>
-          <div class="profile-info">
-            <span id="nav-user-name" class="text-primary font-bold">Mohammed Saqib</span>
-            <span class="text-xs text-muted" id="nav-user-xp">12,450 XP</span>
-          </div>
-        </div>
-        <button class="btn btn-outline btn-small w-100 mt-10" onclick="logoutUser()">Sign Out</button>
-      </div>
+  <!-- ---- STUDY ---- -->
+  <section id="view-study" class="view">
+    <header class="topbar">
+      <h2>Study</h2>
+    </header>
+    <nav class="subtabs" id="study-subtabs">
+      <button class="subtab active" data-study-tab="planner">Planner</button>
+      <button class="subtab" data-study-tab="quiz">Quiz</button>
+      <button class="subtab" data-study-tab="flashcards">Flashcards</button>
+      <button class="subtab" data-study-tab="notes">Notes</button>
+      <button class="subtab" data-study-tab="revision">Revision</button>
     </nav>
-    <div id="sidebar-overlay" class="overlay hidden" onclick="toggleSidebar()"></div>
 
-    <main class="main-content">
-      <header class="app-header">
-        <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-        <div class="model-selector"><span id="header-title">Command Center</span></div>
-        <button class="icon-btn" onclick="navTo('view-home')"><i class="fa-solid fa-pen-to-square"></i></button>
-      </header>
-
-      <!-- View: Home -->
-      <section id="view-home" class="view-section active">
-        <div class="page-container">
-          <div class="greeting-container text-center mb-40 mt-20">
-            <div class="star-icon-medium gradient-star mb-10">✦</div>
-            <h1 class="serif-greeting">Hi <span id="greeting-name">Mohammed</span>,<br>what's on your mind?</h1>
-          </div>
-
-          <div class="card bg-surface-light border-accent mb-20" onclick="navTo('view-chat', 'Socratic Tutor')">
-            <div class="d-flex gap-10">
-              <div class="text-accent mt-5"><i class="fa-solid fa-robot"></i></div>
-              <div>
-                <h4 class="text-primary">AI Mentor Suggestion</h4>
-                <p class="text-sm text-muted mt-5">Let's do a 15-minute focused revision today.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid-2 gap-20 mb-20">
-            <div class="card" onclick="navTo('view-profile')">
-              <h4 class="text-muted text-xs uppercase mb-10">Knowledge Health</h4>
-              <div class="d-flex-between">
-                <span class="text-2xl text-primary">92/100</span>
-                <span class="badge bg-green-light text-green">+4%</span>
-              </div>
-              <div class="progress-bar mt-10"><div class="progress-fill bg-green" style="width: 92%;"></div></div>
-            </div>
-            <div class="card" onclick="navTo('view-profile')">
-              <h4 class="text-muted text-xs uppercase mb-10">Daily Streak</h4>
-              <div class="d-flex-between">
-                <span class="text-2xl text-orange"><i class="fa-solid fa-fire"></i> 48</span>
-                <span class="text-sm text-muted">Days</span>
-              </div>
-              <p class="text-xs text-muted mt-10" id="xp-home-display">12,450 XP</p>
-            </div>
-          </div>
+    <div class="scroll-area">
+      <div id="study-planner" class="study-pane active-pane">
+        <div class="card section-card">
+          <div class="section-head"><h3>Daily goals</h3><span id="planner-streak">🔥 0 day streak</span></div>
+          <div id="planner-goals-list" class="row-list empty-state">No goals yet — set one to get started.</div>
         </div>
-      </section>
-
-      <!-- View: Chat Engine -->
-      <section id="view-chat" class="view-section flex-col">
-        <div class="chat-area" id="chat-messages">
-          <div class="message ai-message">
-            <div class="avatar-small"><div class="gradient-star">✦</div></div>
-            <div class="bubble"><p>I am your Socratic AI Tutor. I will guide you step-by-step. What are we studying?</p></div>
-          </div>
+        <div class="card section-card">
+          <h3>Calendar</h3>
+          <div id="planner-calendar" class="calendar-placeholder empty-state">Your study calendar will appear here.</div>
         </div>
-      </section>
-
-      <!-- View: Notes AI -->
-      <section id="view-notes" class="view-section">
-        <div class="page-container text-center">
-          <h2 class="serif-title mb-20">AI Notes Generator</h2>
-          <div class="upload-zone mb-20">
-            <i class="fa-solid fa-cloud-arrow-up text-accent text-3xl mb-10"></i>
-            <p class="text-primary font-bold">Tap to upload PDF or Image</p>
-          </div>
-          <input type="text" id="notes-topic" class="input-field mb-10" placeholder="Or type a topic to generate notes...">
-          <button class="btn btn-primary w-100" onclick="generateNotes()">Generate Smart Notes</button>
-          <div id="notes-output" class="card text-left mt-20 hidden"></div>
-        </div>
-      </section>
-
-      <!-- View: Study Rooms -->
-      <section id="view-rooms" class="view-section">
-        <div class="page-container">
-          <div class="d-flex-between mb-20">
-            <h2 class="serif-title">Study Rooms</h2>
-            <button class="btn btn-primary btn-small">➕ Create</button>
-          </div>
-          <div class="card mb-10">
-            <div class="d-flex-between mb-10">
-              <h4 class="text-primary">JEE Physics Marathon</h4>
-              <span class="badge bg-surface-light text-primary">👥 18/25</span>
-            </div>
-            <p class="text-sm text-muted mb-10">⏱️ 42 min running • Host: Rahul</p>
-            <button class="btn btn-outline w-100">Join Room</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- View: Focus Mode -->
-      <section id="view-focus" class="view-section">
-        <div class="page-container text-center">
-          <h2 class="serif-title mb-20">Focus Mode</h2>
-          <div class="timer-ring d-flex-center flex-col mx-auto mb-40 mt-40">
-            <h1 class="text-4xl text-primary" id="focus-time">25:00</h1>
-            <p class="text-sm text-muted">Stay focused.</p>
-          </div>
-          <button class="btn btn-primary w-100 mb-10" onclick="startFocusTimer()">Start Deep Work</button>
-        </div>
-      </section>
-
-      <!-- View: Profile -->
-      <section id="view-profile" class="view-section">
-        <div class="page-container text-center">
-          <div class="avatar-large bg-accent text-white d-flex-center mx-auto mb-10"><i class="fa-solid fa-user text-3xl"></i></div>
-          <h2 class="text-primary" id="profile-name-display">Mohammed Saqib Ahmed</h2>
-          <p class="text-muted text-sm mb-20">Bengaluru, India • Level 18 Scholar</p>
-          
-          <div class="card mb-20">
-            <div class="d-flex-between mb-5">
-              <span class="font-bold text-sm">Scholar Rank</span>
-              <span class="text-accent font-bold text-sm" id="profile-xp-display">12,450 XP</span>
-            </div>
-            <div class="progress-bar mb-10"><div class="progress-fill bg-accent" style="width: 75%;"></div></div>
-          </div>
-          <button class="btn btn-outline w-100 mt-20" onclick="logoutUser()">Sign Out</button>
-        </div>
-      </section>
-
-      <section id="view-planner" class="view-section"><div class="page-container text-center"><h2 class="serif-title mb-20">Study Planner</h2><p class="text-muted text-sm">Calendar schedule loads here.</p></div></section>
-
-      <!-- Global Chat Input Bar -->
-      <div class="global-input-wrapper" id="global-input">
-        <div class="input-pill">
-          <button class="icon-btn text-muted"><i class="fa-solid fa-plus"></i></button>
-          <input type="text" id="chat-input" placeholder="Ask Ultron...">
-          <button class="icon-btn bg-surface text-primary rounded-full" onclick="handleGlobalSubmit()"><i class="fa-solid fa-arrow-up"></i></button>
+        <div class="card ai-suggestion-card">
+          <span class="ai-suggestion-icon">✨</span>
+          <div><p class="ai-suggestion-title">AI recommendation</p><p class="ai-suggestion-text">Chat with Ultron about a topic to get a study plan.</p></div>
         </div>
       </div>
 
-    </main>
+      <div id="study-quiz" class="study-pane">
+        <div class="card section-card">
+          <h3>AI generated</h3>
+          <button class="secondary-btn" data-quiz-action="generate">Generate a quiz</button>
+        </div>
+        <div class="card section-card"><h3>Previous quizzes</h3><div id="previous-quiz-list" class="row-list empty-state">No quizzes yet.</div></div>
+        <div class="card section-card"><h3>Subject quiz</h3><div id="subject-quiz-list" class="row-list empty-state">Pick a subject once you've chatted about one.</div></div>
+      </div>
+
+      <div id="study-flashcards" class="study-pane">
+        <div class="card section-card">
+          <h3>AI generated</h3>
+          <button class="secondary-btn" data-flashcard-action="generate">Generate flashcards</button>
+        </div>
+        <div class="card section-card"><h3>Review</h3><div id="flashcards-review-list" class="row-list empty-state">No flashcards to review yet.</div></div>
+      </div>
+
+      <div id="study-notes" class="study-pane">
+        <div class="card section-card"><h3>AI notes</h3><div id="ai-notes-list" class="row-list empty-state">Notes you generate in Chat will show up here.</div></div>
+        <div class="card section-card"><h3>Saved notes</h3><div id="saved-notes-list" class="row-list empty-state">No saved notes yet.</div></div>
+      </div>
+
+      <div id="study-revision" class="study-pane">
+        <div class="card section-card"><h3>Weak topics</h3><div id="weak-topics-list" class="row-list empty-state">Take a few quizzes to surface weak topics.</div></div>
+        <div class="card section-card"><h3>Today's revision</h3><div id="todays-revision-list" class="row-list empty-state">Nothing scheduled for today.</div></div>
+      </div>
+    </div>
   </section>
 
-  <script type="module" src="app.js"></script>
+  <!-- ---- LEARN ---- -->
+  <section id="view-learn" class="view">
+    <header class="topbar">
+      <h2>Learn</h2>
+    </header>
+    <nav class="subtabs" id="learn-subtabs">
+      <button class="subtab active" data-learn-tab="pdf">PDF</button>
+      <button class="subtab" data-learn-tab="camera">Camera</button>
+      <button class="subtab" data-learn-tab="voice">Voice</button>
+      <button class="subtab" data-learn-tab="website">Website</button>
+    </nav>
+
+    <div class="scroll-area">
+      <div id="learn-pdf" class="study-pane active-pane">
+        <label class="upload-drop card" for="pdf-upload-input">
+          <span class="upload-icon">📄</span>
+          <p>Upload a PDF</p>
+          <span class="upload-sub">Summarize · Explain · Ask · Quiz</span>
+          <input type="file" id="pdf-upload-input" accept="application/pdf" hidden />
+        </label>
+        <div class="card section-card"><h3>Your PDFs</h3><div id="pdf-list" class="row-list empty-state">No PDFs uploaded yet.</div></div>
+      </div>
+
+      <div id="learn-camera" class="study-pane">
+        <label class="upload-drop card" for="camera-upload-input">
+          <span class="upload-icon">📷</span>
+          <p>Scan homework, a diagram, or a formula</p>
+          <span class="upload-sub">Ultron reads the image and explains it</span>
+          <input type="file" id="camera-upload-input" accept="image/*" capture="environment" hidden />
+        </label>
+      </div>
+
+      <div id="learn-voice" class="study-pane">
+        <div class="card section-card">
+          <h3>Voice conversation</h3>
+          <p class="muted">Talk through a topic out loud with Ultron.</p>
+          <button class="secondary-btn" id="learn-voice-start">Start conversation</button>
+        </div>
+        <div class="card section-card">
+          <h3>Read aloud</h3>
+          <p class="muted">Have any note or answer read back to you.</p>
+        </div>
+        <div class="card section-card">
+          <h3>Practice viva</h3>
+          <p class="muted">Rehearse spoken answers for an oral exam.</p>
+          <button class="secondary-btn" id="learn-viva-start">Start practice viva</button>
+        </div>
+      </div>
+
+      <div id="learn-website" class="study-pane">
+        <div class="card section-card">
+          <h3>Learn from a website</h3>
+          <p class="muted">Coming soon — paste a link and Ultron will summarize it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- PROGRESS ---- -->
+  <section id="view-progress" class="view">
+    <header class="topbar">
+      <h2>Progress</h2>
+    </header>
+    <div class="scroll-area">
+      <div class="stat-grid">
+        <div class="card stat-card"><span class="stat-value" id="stat-learning-score">–</span><span class="stat-label">Learning score</span></div>
+        <div class="card stat-card"><span class="stat-value" id="stat-study-hours">–</span><span class="stat-label">Study hours</span></div>
+        <div class="card stat-card"><span class="stat-value" id="stat-exam-readiness">–</span><span class="stat-label">Exam readiness</span></div>
+        <div class="card stat-card"><span class="stat-value" id="stat-streak">–</span><span class="stat-label">Streak</span></div>
+      </div>
+
+      <div class="card section-card">
+        <h3>Knowledge graph</h3>
+        <div class="empty-state placeholder-box">Your knowledge graph will build as you study.</div>
+      </div>
+
+      <div class="two-col">
+        <div class="card section-card"><h3>Strong subjects</h3><div id="strong-subjects-list" class="row-list empty-state">Not enough data yet.</div></div>
+        <div class="card section-card"><h3>Weak subjects</h3><div id="weak-subjects-list" class="row-list empty-state">Not enough data yet.</div></div>
+      </div>
+
+      <div class="card section-card"><h3>Revision needed</h3><div id="revision-needed-list" class="row-list empty-state">Nothing flagged right now.</div></div>
+      <div class="card section-card"><h3>Achievements</h3><div id="achievements-list" class="row-list empty-state">Keep studying to unlock achievements.</div></div>
+      <div class="card section-card"><h3>Exam prediction</h3><div class="empty-state placeholder-box">Not enough data to predict yet.</div></div>
+    </div>
+  </section>
+
+  <!-- ---- PROFILE ---- -->
+  <section id="view-profile" class="view">
+    <header class="topbar">
+      <h2>Profile</h2>
+    </header>
+    <div class="scroll-area">
+      <div class="card profile-header">
+        <img id="profile-avatar" class="avatar large" src="" alt="" />
+        <div>
+          <p class="profile-name" id="profile-name">Student</p>
+          <p class="profile-email" id="profile-email">—</p>
+        </div>
+      </div>
+
+      <div class="card list-card">
+        <button class="list-row" data-profile-nav="settings"><span>⚙️ Settings</span><span>›</span></button>
+        <button class="list-row" data-profile-nav="language"><span>🌐 Language</span><span>›</span></button>
+        <button class="list-row" data-profile-nav="theme"><span>🎨 Theme</span><span>›</span></button>
+      </div>
+
+      <div class="card list-card">
+        <button class="list-row" data-profile-nav="downloads"><span>⬇️ Downloads</span><span>›</span></button>
+        <button class="list-row" data-profile-nav="saved-chats"><span>💬 Saved chats</span><span>›</span></button>
+        <button class="list-row" data-profile-nav="bookmarks"><span>🔖 Bookmarks</span><span>›</span></button>
+        <button class="list-row" data-profile-nav="notifications"><span>🔔 Notifications</span><span>›</span></button>
+      </div>
+
+      <div class="card list-card">
+        <button class="list-row" data-profile-nav="premium"><span>⭐ Premium</span><span>›</span></button>
+      </div>
+
+      <button class="danger-btn" id="logout-btn">Log out</button>
+    </div>
+  </section>
+
+  <!-- ---- FLOATING ORB ---- -->
+  <button id="floating-orb" class="floating-orb" aria-label="Talk to Ultron">
+    <span class="orb-inner"></span>
+  </button>
+
+  <!-- ---- BOTTOM NAV ---- -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-nav="home"><span class="nav-icon">🏠</span><span>Home</span></button>
+    <button class="nav-btn" data-nav="chat"><span class="nav-icon">💬</span><span>AI</span></button>
+    <button class="nav-btn" data-nav="study"><span class="nav-icon">📚</span><span>Study</span></button>
+    <button class="nav-btn" data-nav="progress"><span class="nav-icon">📊</span><span>Progress</span></button>
+    <button class="nav-btn" data-nav="profile"><span class="nav-icon">👤</span><span>Profile</span></button>
+  </nav>
+</div>
+
+<script src="config.js"></script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
